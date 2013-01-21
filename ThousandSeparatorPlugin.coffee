@@ -4,12 +4,15 @@ Ext.define 'Ext.ux.ThousandSeparatorPlugin'
   alias: 'plugin.thousandseparator'
 
   statics:
-    separatorImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAKklEQVQYV2NkIBIwEqmOgbYK/2NxBtxGdKuRFaPIYXMjSDGGOG09gzdIAUFjAwtbBzcSAAAAAElFTkSuQmCC'
+    separatorImage: 'data:image/gif;base64,R0lGODlhAQAFAIAAADMzM///zCH5BAAHAP8ALAAAAAABAAUAAAIChF0AOw=='
+    topPosition: 3
 
   constructor: ->
     @callParent arguments
 
-    @separatorImage ?= @statics().separatorImage
+    statics = @statics()
+    @separatorImage ?= statics.separatorImage
+    @topPosition ?= statics.topPosition
 
     img = document.createElement 'img'
     img.onload = =>
@@ -88,11 +91,11 @@ Ext.define 'Ext.ux.ThousandSeparatorPlugin'
     positions = [] if valueWidth > width - paddingLeft - paddingRight
 
     positions = (@textMetrics.getWidth value.substring 0, position for position in positions)
-    positions = (paddingLeft + position - Math.floor(@separatorWidth / 2) for position in positions)
+    positions = (paddingLeft + position - 1 for position in positions)
     if textAlign is 'right'
-      positions = (width - paddingLeft - paddingRight - valueWidth + position for position in positions)
+      positions = (width - paddingLeft - paddingRight - valueWidth - 3 + position for position in positions)
 
-    bgPositions = ("#{position}px 0" for position in positions)
+    bgPositions = ("#{position}px #{@topPosition}px" for position in positions)
     bgPositions.push position for position in defaultBg.positions
 
     bgImages = ("url(#{@separatorImage})" for position in positions)

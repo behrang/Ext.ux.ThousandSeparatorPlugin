@@ -5,14 +5,19 @@
     extend: 'Ext.AbstractPlugin',
     alias: 'plugin.thousandseparator',
     statics: {
-      separatorImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAKklEQVQYV2NkIBIwEqmOgbYK/2NxBtxGdKuRFaPIYXMjSDGGOG09gzdIAUFjAwtbBzcSAAAAAElFTkSuQmCC'
+      separatorImage: 'data:image/gif;base64,R0lGODlhAQAFAIAAADMzM///zCH5BAAHAP8ALAAAAAABAAUAAAIChF0AOw==',
+      topPosition: 3
     },
     constructor: function() {
-      var img, _ref,
+      var img, statics, _ref, _ref1,
         _this = this;
       this.callParent(arguments);
+      statics = this.statics();
       if ((_ref = this.separatorImage) == null) {
-        this.separatorImage = this.statics().separatorImage;
+        this.separatorImage = statics.separatorImage;
+      }
+      if ((_ref1 = this.topPosition) == null) {
+        this.topPosition = statics.topPosition;
       }
       img = document.createElement('img');
       img.onload = function() {
@@ -165,17 +170,17 @@
         _results = [];
         for (_i = 0, _len = positions.length; _i < _len; _i++) {
           position = positions[_i];
-          _results.push(paddingLeft + position - Math.floor(this.separatorWidth / 2));
+          _results.push(paddingLeft + position - 1);
         }
         return _results;
-      }).call(this);
+      })();
       if (textAlign === 'right') {
         positions = (function() {
           var _i, _len, _results;
           _results = [];
           for (_i = 0, _len = positions.length; _i < _len; _i++) {
             position = positions[_i];
-            _results.push(width - paddingLeft - paddingRight - valueWidth + position);
+            _results.push(width - paddingLeft - paddingRight - valueWidth - 3 + position);
           }
           return _results;
         })();
@@ -185,10 +190,10 @@
         _results = [];
         for (_i = 0, _len = positions.length; _i < _len; _i++) {
           position = positions[_i];
-          _results.push("" + position + "px 0");
+          _results.push("" + position + "px " + this.topPosition + "px");
         }
         return _results;
-      })();
+      }).call(this);
       _ref = defaultBg.positions;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         position = _ref[_i];
